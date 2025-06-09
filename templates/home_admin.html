@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse border-end">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="loadContent('inicio')">
+              <i class="bi bi-house-door"></i> Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'index_productos' %}" onclick="loadContent('perfil')">
+              <i class="bi bi-person-circle"></i> Productos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="loadContent('configuracion')">
+              <i class="bi bi-gear"></i> Configuración
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+      <div id="dashboard-content">
+        {% block content2 %}
+          <h2>Bienvenido al panel de control</h2>
+          <p>Selecciona una opción del menú lateral para empezar.</p>
+        {% endblock content2 %}
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- JavaScript para cambiar contenido -->
+<script>
+  function loadContent(section) {
+    const content = {
+      'inicio': `
+        <h2>Inicio</h2>
+        <p>Este es el resumen del sistema.</p>
+      `,
+      'perfil': `
+        <h2>Perfil</h2>
+        <p>Información del usuario.</p>
+      `,
+      'configuracion': `
+        <h2>Configuración</h2>
+        <p>Ajustes del sistema.</p>
+      `
+    };
+
+    document.getElementById('dashboard-content').innerHTML = content[section] || '<p>Sección no encontrada.</p>';
+  }
+</script>
+{% endblock %}
