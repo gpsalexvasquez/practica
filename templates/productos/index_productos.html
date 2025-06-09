@@ -2,35 +2,6 @@
 
 {% block content2 %}
     <h5>Bienvenido al index de Productos</h5>
-    <h5>Registrar Producto</h5>
-    <form method="POST">
-        {% csrf_token %}
-            <div class="mb-3">
-                <label for="cod" class="form-label">Código</label>
-                <input type="text" class="form-control" id="cod" name="cod" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="precio" class="form-label">Precio (S/)</label>
-                <input type="number" step="0.01" class="form-control" id="precio" name="precio" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="stock" class="form-label">Stock</label>
-                <input type="number" class="form-control" id="stock" name="stock" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Registrar producto</button>
-    </form>
-
+    <h5></h5>
+    
 {% endblock content2 %}
