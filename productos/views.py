@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 
 def index_productos(request):
-    return render(request, 'productos/index_productos.html')
+    productos = Producto.objects.all()
+    return render(request, 'productos/index_productos.html',
+                  {'productos':productos})
 
 def registrar_producto(request):
     
@@ -23,3 +25,16 @@ def registrar_producto(request):
 
         return redirect('index_productos')
     return render(request,'productos/registrar_producto.html')
+
+def editar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    if request.method =='POST':
+        producto.cod = request.POST.get('cod')
+        producto.nombre = request.POST.get('nombre')
+        producto.descripcion = request.POST.get('descripcion')
+        producto.precio = request.POST.get('precio')
+        producto.stock = request.POST.get('stock')
+        producto.save()
+        return redirect('index_productos')
+    return render(request, 'productos/editar_producto.html',{'producto':producto})
