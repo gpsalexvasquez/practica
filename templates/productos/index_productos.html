@@ -3,37 +3,98 @@
 {% block content2 %}
     <h5>Bienvenido al index de Productos</h5>
     <div class="container mt-4">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio (S/)</th>
-            <th>Stock</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for producto in productos %}
-        <tr>
-            <td>{{ producto.cod }}</td>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.descripcion }}</td>
-            <td>{{ producto.precio }}</td>
-            <td>{{ producto.stock }}</td>
-            <td>
-                <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning btn-sm">Editar</a>
-                <button class="btn btn-danger btn-sm">Eliminar</button>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5" class="text-center">No hay productos registrados.</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio (S/)</th>
+                <th>Stock</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.cod }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td>
+                        <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="{{ producto.id }}">Eliminar</button>
+
+                    </td>
+                </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No hay productos registrados.</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
     
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Eliminar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock content2 %}
+
+{% block extra_js %}
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        let deleteId = null;
+
+        // Abrir el modal al hacer clic en el botón eliminar
+        $(document).on('click', '.delete-btn', function() {
+            deleteId = $(this).data('id'); // Guardar el ID del registro
+            $('#deleteModal').modal('show'); // Mostrar el modal
+        });
+
+        // Confirmar eliminación
+        $('#confirmDeleteBtn').on('click', function() {
+            if (deleteId) {
+            $.ajax({
+                url: '/productos/eliminar/' + deleteId ,  // Ajusta esta URL según tu ruta Django
+                method: 'POST',
+                data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                if (response.success) {
+                    $('#deleteModal').modal('hide');
+                    // Eliminar la fila del DataTable (si usas DataTable)
+                    $('button[data-id="' + deleteId + '"]').closest('tr').fadeOut(500, function() {
+                    $(this).remove();
+                    });
+                } else {
+                    alert('Error al eliminar');
+                }
+                }
+            });
+            }
+        });
+    </script>
+
+{% endblock extra_js %}

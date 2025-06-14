@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 
@@ -38,3 +39,17 @@ def editar_producto(request, producto_id):
         producto.save()
         return redirect('index_productos')
     return render(request, 'productos/editar_producto.html',{'producto':producto})
+
+def eliminar_producto(request, id):
+    if request.method=='POST':
+        producto = Producto.objects.get(pk=id)
+        producto.delete()
+        return JsonResponse({'success':True})
+    
+
+
+
+
+
+
+
