@@ -1,6 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
+from sentence_transformers import SentenceTransformer, util
+
+model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')  # más ligero
 
 def index_productos(request):
     productos = Producto.objects.all()
@@ -47,9 +50,25 @@ def eliminar_producto(request, id):
         return JsonResponse({'success':True})
     
 
+def obtener_respuesta(pregunta):
+    productos = list(Producto.objects.all())
+    corpus = [f"{p.nombre} {p.descripcion}" for p in productos]
+    pregunta_embedding=model.encode(pregunta, convert_to_tensor=True)    
+    corpus_embeddings=model.encode(corpus, convert_to_tensor=True)
 
+    similitudes = util.cos_sim(pregunta_embedding, corpus_embeddings)[0]
+    idx = similitudes.argmax().item()
 
-
-
+    producto_mas_relevante = productos[idx]
+    if "precio" in pregunta.lower():
+        return f"El precio de {producto_mas_relevante.nombre} \
+            es S/ {producto_mas_relevante.precio}"
+    elif "stock" in pregunta.lower() or "hay" in pregunta.lower():
+        return f"Hay {producto_mas_relevante.stock} \
+            unidades de {producto_mas_relevante.nombre}"
+    else:
+        return f"{producto_mas_relevante.nombre}: \
+            S/{producto_mas_relevante.precio}, \
+                {producto_mas_relevante.stock} unidades disponibles"
 
 
