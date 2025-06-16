@@ -50,6 +50,13 @@ def eliminar_producto(request, id):
         return JsonResponse({'success':True})
     
 
+def chatbot_view(request):
+    respuesta = None
+    if request.method == "POST":
+        pregunta = request.POST.get("pregunta")
+        respuesta = obtener_respuesta(pregunta)
+    return render(request, "chatbot/chatbot.html", {"respuesta": respuesta})
+
 def obtener_respuesta(pregunta):
     productos = list(Producto.objects.all())
     corpus = [f"{p.nombre} {p.descripcion}" for p in productos]
