@@ -1,9 +1,24 @@
-<form method="post">
-  {% csrf_token %}
-  <input type="text" name="pregunta" placeholder="Pregunta sobre un producto..." style="width: 400px;">
-  <button type="submit">Preguntar</button>
-</form>
+{% extends "home_admin.html" %}
 
-{% if respuesta %}
-  <p><strong>Respuesta:</strong> {{ respuesta }}</p>
-{% endif %}
+{% block content2 %}
+
+    <form method="post">
+        {% csrf_token %}
+        <input class="form-control" type="text" name="pregunta" placeholder="Pregunta sobre un producto">
+        <br>
+        <button class="btn btn-primary bg-3" type="submit">Enviar</button>
+    </form>
+
+    {% if respuesta %}
+        <div class="respuesta">
+            <br>
+            <h5>Respuesta:</h5>
+            <div class="alert alert-success" role="alert">
+                
+                <p>{{ respuesta }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content2 %}
+
