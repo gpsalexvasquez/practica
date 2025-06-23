@@ -6,6 +6,7 @@ charset-normalizer==3.4.2
 colorama==0.4.6
 decorator==4.4.2
 Django==5.0
+Faker==37.4.0
 filelock==3.18.0
 fsspec==2025.5.1
 huggingface-hub==0.33.0
@@ -32,6 +33,7 @@ pooch==1.8.2
 proglog==0.1.12
 pycparser==2.22
 pydub==0.25.1
+PyMuPDF==1.26.1
 python-dotenv==1.1.0
 PyYAML==6.0.2
 regex==2024.11.6
