@@ -1,0 +1,15 @@
+<h1>Convocatorias Tech</h1>
+<a href="{% url 'crear_perfil' %}">Crear nueva convocatoria</a>
+<ul>
+  {% for perfil in perfiles %}
+    <li>
+      <strong>{{ perfil.titulo }}</strong> en {{ perfil.empresa }} - {{ perfil.tipo_puesto }}
+      <br>
+      <a href="{{ perfil.link_aplicacion }}" target="_blank">Aplicar</a> |
+      <a href="{% url 'editar_perfil' perfil.pk %}">Editar</a> |
+      <a href="{% url 'eliminar_perfil' perfil.pk %}">Eliminar</a>
+    </li>
+  {% empty %}
+    <li>No hay convocatorias publicadas.</li>
+  {% endfor %}
+</ul>

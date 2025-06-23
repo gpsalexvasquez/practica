@@ -4,6 +4,7 @@ from transformers import pipeline
 from django.conf import settings
 from moviepy.editor import VideoFileClip
 import speech_recognition as sr
+
 transcriber = pipeline("automatic-speech-recognition",model="openai/whisper-small")
 
 def index(request):
@@ -18,7 +19,6 @@ def index(request):
         # texto=""
         return render(request, "transcriber/index.html",{"transcription":texto})
     return render(request, "transcriber/index.html")
-
 
 def extraer_audio_y_convertir_a_texto(input_video_path):
 
@@ -35,7 +35,6 @@ def extraer_audio_y_convertir_a_texto(input_video_path):
     file_name = os.path.splitext(os.path.basename(output_audio_path))[0]
     file_extension = os.path.splitext(output_audio_path)[1]
     nombre_audio=file_name+file_extension
-    
     
     try:
         with sr.AudioFile(output_audio_path) as source:

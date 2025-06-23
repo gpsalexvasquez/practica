@@ -7,7 +7,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('home.urls')),
     path('',include('productos.urls')),
-    path('',include('transcriber.urls'))
+    path('',include('transcriber.urls')),
+    path('',include('perfil.urls')),
+    path('',include('cvs.urls'))
 
 ]
 

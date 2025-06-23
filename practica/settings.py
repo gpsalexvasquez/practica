@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'home',
     'productos',
     'transcriber',
+    'perfil',
+    'cvs',
 ]
 
 MIDDLEWARE = [
