@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resume Matcher</title>
-</head>
+{% extends "home_admin.html" %}
+
+{% block content2 %}
 <body>
     <h1>Matcher de CVs con Perfil</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label>Texto del perfil requerido:</label><br>
-        <textarea name="profile_text" rows="10" cols="60" required></textarea><br><br>
+        <textarea class="form-control" name="profile_text" rows="10" cols="60" required></textarea><br><br>
 
         <label>Sube CVs (PDF):</label><br>
-        <input type="file" name="cv_files" multiple required><br><br>
+        <input class="btn btn-info" type="file" name="cv_files" multiple required><br><br>
 
-        <button type="submit">Procesar</button>
+        <button class="btn btn-primary" type="submit">Procesar</button>
     </form>
 
     {% if matches %}
@@ -25,5 +22,4 @@
             {% endfor %}
         </ul>
     {% endif %}
-</body>
-</html>
+{% endblock content2 %}

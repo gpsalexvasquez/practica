@@ -1,7 +1,13 @@
-<h1>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Convocatoria</h1>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Guardar</button>
-</form>
-<a href="{% url 'lista_perfiles' %}">Volver al listado</a>
+{% extends "home_admin.html" %}
+
+{% block content2 %}
+
+  <h1>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Convocatoria</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="form-control" type="submit">Guardar</button>
+  </form>
+  <a href="{% url 'lista_perfiles' %}">Volver al listado</a>
+
+{% endblock content2 %}

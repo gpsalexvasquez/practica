@@ -1,15 +1,65 @@
+{% extends "home_admin.html" %}
+
+{% block content2 %}
+
+
 <h1>Convocatorias Tech</h1>
 <a href="{% url 'crear_perfil' %}">Crear nueva convocatoria</a>
-<ul>
-  {% for perfil in perfiles %}
-    <li>
-      <strong>{{ perfil.titulo }}</strong> en {{ perfil.empresa }} - {{ perfil.tipo_puesto }}
-      <br>
-      <a href="{{ perfil.link_aplicacion }}" target="_blank">Aplicar</a> |
-      <a href="{% url 'editar_perfil' perfil.pk %}">Editar</a> |
-      <a href="{% url 'eliminar_perfil' perfil.pk %}">Eliminar</a>
-    </li>
-  {% empty %}
-    <li>No hay convocatorias publicadas.</li>
-  {% endfor %}
-</ul>
+
+<table id="tablaConvocatorias" class="display">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Empresa</th>
+            <th>Tipo de Puesto</th>
+            <th>Aplicación</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for perfil in perfiles %}
+        <tr>
+            <td>{{ perfil.titulo }}</td>
+            <td>{{ perfil.empresa }}</td>
+            <td>{{ perfil.tipo_puesto|title }}</td>
+            <td><a href="{{ perfil.link_aplicacion }}" target="_blank">Aplicar</a></td>
+            <td>
+                <a href="{% url 'editar_perfil' perfil.pk %}">Editar</a> |
+                <a href="{% url 'eliminar_perfil' perfil.pk %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hay convocatorias publicadas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+{% endblock content2 %}
+
+{% block extra_js %}
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#tablaConvocatorias').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            }
+        });
+    });
+</script>
+
+
+
+{% endblock extra_js %}
